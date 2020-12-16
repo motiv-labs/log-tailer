@@ -7,7 +7,7 @@ It will make the REST call to the service and tail those logs by repeatedly call
 Logs retrieved will be delayed approximately 10 seconds.  
 # How to use
 ## Docker container
-You can either get the Docker image from here: {insert link}
+You can either get the Docker image from here: https://hub.docker.com/repository/docker/motivlabs/log-tailer
 
 Or build it using a command like this: 
 ```
@@ -31,6 +31,7 @@ docker run --rm=true --network host --name log-tailer log-tailer:test <log taile
 ### Optional
 * --jwt \<jwt>
     * Pass the JWT to be used with the REST request. 
+    * If a request is made and a 401 status code is returned, the tailer will wait and ask for a new jwt.  
 * --follow
     * Set this to tail the logs from the provided endpoint
 * --service \<service name>
@@ -39,6 +40,7 @@ docker run --rm=true --network host --name log-tailer log-tailer:test <log taile
     * Pass the transaction ID of the transaction you want to follow when using the `pullLogsByTransaction` endpoint
 * --starttime \<timestamp or timeuuid>
     * Pass the timestamp for the starting time to pull logs from that time forward 
+    * Default is 2 minutes ago
     * Timestamp must follow this layout: `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'` i.e. 2006-01-02T15:04:05.000Z
     * If a timeUUID is passed in the logs will return all logs after it. If timestamp, it will return logs matching that timestamp foward.
 * --endtime \<timestamp or timeuuid>
