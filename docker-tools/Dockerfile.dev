@@ -1,0 +1,20 @@
+# Start from the latest golang base image
+FROM golang:1.13.6-alpine as build-debug-common
+LABEL maintainer="Motiv Labs <dev@motivsolutions.com>"
+WORKDIR /app
+
+# Add tooling to install GCC
+RUN apk add build-base
+# Add cqlsh to the image.
+RUN apk add --update \
+    bash \
+    curl \
+    py-pip
+RUN go get github.com/go-delve/delve/cmd/dlv
+
+######## Create the dev image #######
+FROM build-debug-common as dev
+EXPOSE 8080 40000
+COPY docker-tools/entry-dev.sh /usr/local/bin
+RUN chmod 755 /usr/local/bin/entry-dev.sh
+ENTRYPOINT ["/usr/local/bin/entry-dev.sh"]
