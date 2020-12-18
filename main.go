@@ -124,7 +124,11 @@ func initGetLogs(url string, optional string, client http.Client) {
 			log.Println(err)
 		}
 
-		fmt.Printf("%v: %v\n", m.TimeUUID, m.JsonLog.Log)
+		if showTimeUUID {
+			fmt.Printf("%v: %v\n", m.TimeUUID, m.JsonLog.Log)
+		} else {
+			fmt.Printf("%v\n", m.JsonLog.Log)
+		}
 		currentTimeUUID = m.TimeUUID
 	}
 
@@ -259,8 +263,8 @@ func getArgs(args []string){
 			println("--starttime <timestamp>: the timestamp for start time given in the form: " + layout)
 			println("--endtime <timestamp>: the timestamp for end time given in the form: " + layout)
 			println("--showtimeuuid: set this to show timeUUID for each log")
+			log.Fatal()
 		}
-		log.Fatal()
 	}
 
 	for k, v := range args {
